@@ -1,17 +1,21 @@
 """Step 5 of the pipeline: RAG. Retrieve chunks from BigQuery, then have Gemini answer with citations."""
 import json
+import logging
+import random
 import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from google.genai import types
+import httpx
+from google.genai import errors, types
 
 from bq_search import parse_question, retrieve
 from embed import client
 
 MODEL = "gemini-3.6-flash"
 TOP_K = 6
+MAX_RETRIES = 6
 # Approximate list prices in USD per 1M tokens (Gemini API standard tier, through Dec 31, 2026)
 PRICE_INPUT_PER_M = 0.75
 PRICE_OUTPUT_PER_M = 3.75   # output price also applies to "thinking" tokens
@@ -25,7 +29,21 @@ Rules:
 - Be concise: a short paragraph or a few bullet points."""
 
 CITATION_PATTERN = re.compile(r"\b[A-Z]+-\d{4}-Item\w+-\d{3}\b")
+logger = logging.getLogger("tenk")
 
+def generate_with_retry(**kwargs):
+    """Call Gemini; if it's rate-limited (429), overloaded (5xx) or the network blips, wait and retry."""
+    for attempt in range(MAX_RETRIES):
+        try:
+            return client.models.generate_content(**kwargs)
+        except (errors.APIError, httpx.TransportError) as e:
+            code = getattr(e, "code", None)
+            retryable = code is None or code == 429 or code >= 500
+            if not retryable or attempt == MAX_RETRIES - 1:
+                raise
+            wait = 2 * 2 ** attempt + random.random()  # ~2s, 4s, 8s, 16s, 32s...
+            print(f"  Gemini {code or type(e).__name__}, retrying in {wait:.0f}s")
+            time.sleep(wait)
 
 def build_prompt(question: str, chunks: list[dict]) -> str:
     """Put each retrieved chunk in the prompt with its id, so the model can cite it."""
@@ -41,7 +59,7 @@ def answer(question: str, ticker: str | None = None) -> dict:
     chunks = retrieve(question, k=TOP_K, ticker=ticker)
     t1 = time.perf_counter()
 
-    response = client.models.generate_content(
+    response = generate_with_retry(
         model=MODEL,
         contents=build_prompt(question, chunks),
         config=types.GenerateContentConfig(
@@ -85,6 +103,9 @@ def answer(question: str, ticker: str | None = None) -> dict:
     LOG_PATH.parent.mkdir(exist_ok=True)
     with LOG_PATH.open("a", encoding="utf-8") as f:  # one JSON line per request = simple tracing
         f.write(json.dumps(result) + "\n")
+    logger.info(json.dumps(result))  # on Cloud Run, this goes to Cloud Logging
+
+    result["chunks"] = chunks  # returned for the app and evaluation, but not logged (too big)
     return result
 
 

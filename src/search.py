@@ -6,8 +6,7 @@ from google.genai import types
 
 # Reuse settings from embed.py instead of copying them. This works because of the
 # `if __name__ == "__main__":` guard: importing embed.py does NOT start re-embedding.
-from embed import CHUNKS_PATH, DIMENSIONS, IDS_PATH, MODEL, VECTORS_PATH, client
-
+from embed import CHUNKS_PATH, DIMENSIONS, IDS_PATH, MODEL, VECTORS_PATH, client, embed_one
 TOP_K = 5
 
 
@@ -22,13 +21,8 @@ def load_index():
 
 
 def embed_query(question: str) -> np.ndarray:
-    """Queries use the 'task: ... | query: ...' format, documents used 'title: ... | text: ...'."""
-    response = client.models.embed_content(
-        model=MODEL,
-        contents=f"task: search result | query: {question}",
-        config=types.EmbedContentConfig(output_dimensionality=DIMENSIONS),
-    )
-    vector = np.array(response.embeddings[0].values, dtype=np.float32)
+    """Queries use the 'task: ... | query: ...' format. embed_one already retries on errors."""
+    vector = np.array(embed_one(f"task: search result | query: {question}"), dtype=np.float32)
     return vector / np.linalg.norm(vector)
 
 

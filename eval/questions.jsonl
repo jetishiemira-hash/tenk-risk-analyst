@@ -1,0 +1,22 @@
+{"id": "q01", "question": "How does Walmart manage interest rate risk?", "ticker": "WMT", "answerable": true, "expected": {"ticker": "WMT", "item": "Item 7A", "keywords": ["interest rate swap"]}}
+{"id": "q02", "question": "How is Walmart exposed to foreign currency risk?", "ticker": "WMT", "answerable": true, "expected": {"ticker": "WMT", "item": "Item 7A", "keywords": ["currency"]}}
+{"id": "q03", "question": "What are Apple's supply chain risks?", "ticker": "AAPL", "answerable": true, "expected": {"ticker": "AAPL", "item": "Item 1A", "keywords": ["outsourcing partners", "single-source"]}}
+{"id": "q04", "question": "How does Apple handle foreign exchange risk?", "ticker": "AAPL", "answerable": true, "expected": {"ticker": "AAPL", "item": "Item 7A", "keywords": ["foreign currency", "foreign exchange"]}}
+{"id": "q05", "question": "How do export controls affect NVIDIA?", "ticker": "NVDA", "answerable": true, "expected": {"ticker": "NVDA", "item": "Item 1A", "keywords": ["export control"]}}
+{"id": "q06", "question": "What cybersecurity attacks has Microsoft experienced?", "ticker": "MSFT", "answerable": true, "expected": {"ticker": "MSFT", "item": "Item 1A", "keywords": ["nation-state"]}}
+{"id": "q07", "question": "What risks does Microsoft see in artificial intelligence?", "ticker": "MSFT", "answerable": true, "expected": {"ticker": "MSFT", "item": "Item 1A", "keywords": ["artificial intelligence", " ai "]}}
+{"id": "q08", "question": "Is JPMorgan worried about ransomware?", "ticker": "JPM", "answerable": true, "expected": {"ticker": "JPM", "item": "Item 1A", "keywords": ["ransomware"]}}
+{"id": "q09", "question": "How do capital requirements affect JPMorgan?", "ticker": "JPM", "answerable": true, "expected": {"ticker": "JPM", "item": "Item 1A", "keywords": ["capital requirements", "basel"]}}
+{"id": "q10", "question": "What climate-related risks does ExxonMobil describe?", "ticker": "XOM", "answerable": true, "expected": {"ticker": "XOM", "item": "Item 1A", "keywords": ["climate", "greenhouse gas"]}}
+{"id": "q11", "question": "How do oil price changes affect ExxonMobil?", "ticker": "XOM", "answerable": true, "expected": {"ticker": "XOM", "item": null, "keywords": ["crude oil", "commodity price"]}}
+{"id": "q12", "question": "What does Johnson & Johnson say about talc litigation?", "ticker": "JNJ", "answerable": true, "expected": {"ticker": "JNJ", "item": null, "keywords": ["talc"]}}
+{"id": "q13", "question": "What competitive risks does Amazon face?", "ticker": "AMZN", "answerable": true, "expected": {"ticker": "AMZN", "item": "Item 1A", "keywords": ["competition", "competitive"]}}
+{"id": "q14", "question": "How do tariffs affect Nike?", "ticker": "NKE", "answerable": true, "expected": {"ticker": "NKE", "item": "Item 1A", "keywords": ["tariff"]}}
+{"id": "q15", "question": "What raw material and battery supply risks does Tesla face?", "ticker": "TSLA", "answerable": true, "expected": {"ticker": "TSLA", "item": "Item 1A", "keywords": ["lithium", "battery cells", "raw materials"]}}
+{"id": "q16", "question": "Which company is most affected by export controls on advanced chips?", "ticker": null, "answerable": true, "expected": {"ticker": "NVDA", "item": null, "keywords": ["export control"]}}
+{"id": "q17", "question": "Which company faces litigation over talc products?", "ticker": null, "answerable": true, "expected": {"ticker": "JNJ", "item": null, "keywords": ["talc"]}}
+{"id": "q18", "question": "Which company describes risks related to AWS?", "ticker": null, "answerable": true, "expected": {"ticker": "AMZN", "item": null, "keywords": ["aws"]}}
+{"id": "t01", "question": "What was Apple's revenue in 1995?", "ticker": null, "answerable": false}
+{"id": "t02", "question": "What is the Walmart CEO's annual salary?", "ticker": "WMT", "answerable": false}
+{"id": "t03", "question": "What was Amazon's revenue in 2005?", "ticker": "AMZN", "answerable": false}
+{"id": "t04", "question": "What stock price target has Tesla set for 2030?", "ticker": "TSLA", "answerable": false}
