@@ -1,3 +1,5 @@
 edgartools
 pandas
 python-dotenv
+google-genai
+numpy
